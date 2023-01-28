@@ -9,33 +9,32 @@ import os
 print('doing something')
 
 if not os.path.isfile('embeddings.gz'):
-    r = requests.get('https://storage.googleapis.com/philos-ai-embeddings/embeddings.gz', timeout=2)
-    open('embeddings.gz', 'wb').write(r.content)
-    print('here')
+    x = requests.get('https://w3schools.com')
+    print(x.status_code)
 
-class CPU_Unpickler(pickle.Unpickler):
-    def find_class(self, module, name):
-        if module == 'torch.storage' and name == '_load_from_bytes':
-            return lambda b: torch.load(io.BytesIO(b), map_location='cpu')
-        else:
-            return super().find_class(module, name)
+# class CPU_Unpickler(pickle.Unpickler):
+#     def find_class(self, module, name):
+#         if module == 'torch.storage' and name == '_load_from_bytes':
+#             return lambda b: torch.load(io.BytesIO(b), map_location='cpu')
+#         else:
+#             return super().find_class(module, name)
 
-df = None
-corpus_embeddings=None
+# df = None
+# corpus_embeddings=None
 
-# gpu
-if torch.cuda.is_available():
-    with gzip.open('embeddings.gz', 'rb') as fIn:
-        embeddings = pickle.load(fIn)
-        df = embeddings['df']
-        corpus_embeddings = embeddings['embeddings']
-# cpu
-else:
-    with gzip.open('embeddings.gz', 'rb') as fIn:
-        embeddings = CPU_Unpickler(fIn).load()
-        df = embeddings['df']
-        corpus_embeddings = embeddings['embeddings']
-        print(df)
+# # gpu
+# if torch.cuda.is_available():
+#     with gzip.open('embeddings.gz', 'rb') as fIn:
+#         embeddings = pickle.load(fIn)
+#         df = embeddings['df']
+#         corpus_embeddings = embeddings['embeddings']
+# # cpu
+# else:
+#     with gzip.open('embeddings.gz', 'rb') as fIn:
+#         embeddings = CPU_Unpickler(fIn).load()
+#         df = embeddings['df']
+#         corpus_embeddings = embeddings['embeddings']
+#         print(df)
 
 # # pretrained encoders from sentence transformers
 # bi_encoder = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
@@ -78,7 +77,7 @@ else:
 #   return results
 
 def get_next(id, count):
-	return df['sentence_str'][id+1:id+count+1]
+	return "df['sentence_str'][id+1:id+count+1]"
 
 # def get_prev(id, count):
 # 	return df['sentence_str'][id-count:id]
