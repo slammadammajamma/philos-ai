@@ -6,6 +6,8 @@ import io
 import requests
 import os
 
+print('doing something')
+
 if not os.path.isfile('embeddings.gz'):
     r = requests.get('https://storage.googleapis.com/philos-ai-embeddings/embeddings.gz', timeout=2)
     open('embeddings.gz', 'wb').write(r.content)
@@ -78,5 +80,5 @@ else:
 def get_next(id, count):
 	return df['sentence_str'][id+1:id+count+1]
 
-def get_prev(id, count):
-	return df['sentence_str'][id-count:id]
+# def get_prev(id, count):
+# 	return df['sentence_str'][id-count:id]
