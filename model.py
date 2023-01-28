@@ -3,6 +3,12 @@ import pickle
 import gzip
 import torch
 import io
+import requests
+import os
+
+if not os.path.isfile('embeddings.gz'):
+  r = requests.get('https://storage.googleapis.com/philos-ai-embeddings/embeddings.gz')
+  open('embeddings.gz', 'wb').write(r.content)
 
 class CPU_Unpickler(pickle.Unpickler):
     def find_class(self, module, name):
@@ -14,11 +20,13 @@ class CPU_Unpickler(pickle.Unpickler):
 df = None
 corpus_embeddings=None
 
+# gpu
 if torch.cuda.is_available():
     with gzip.open('embeddings.gz', 'rb') as fIn:
         embeddings = pickle.load(fIn)
         df = embeddings['df']
         corpus_embeddings = embeddings['embeddings']
+# cpu
 else:
 	with gzip.open('embeddings.gz', 'rb') as fIn:
 		embeddings = CPU_Unpickler(fIn).load()
