@@ -9,8 +9,8 @@ import os
 print('doing something')
 
 if not os.path.isfile('embeddings.gz'):
-    x = requests.get('https://w3schools.com')
-    print(x.status_code)
+    r = requests.get('https://storage.googleapis.com/philos-ai-embeddings/embeddings.gz', timeout=2)
+    print('here')
 
 # class CPU_Unpickler(pickle.Unpickler):
 #     def find_class(self, module, name):
